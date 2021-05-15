@@ -1,0 +1,4 @@
+pydantic
+loguru
+pydantic[dotenv]
+aiogram
