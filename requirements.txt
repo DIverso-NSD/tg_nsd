@@ -1,4 +1,4 @@
-pydantic
 loguru
 pydantic[dotenv]
 aiogram
+asyncpg
