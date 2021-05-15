@@ -2,3 +2,4 @@ loguru
 pydantic[dotenv]
 aiogram
 asyncpg
+hurry.filesize
