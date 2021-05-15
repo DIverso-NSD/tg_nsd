@@ -14,10 +14,10 @@ dp = Dispatcher(bot)
 
 @dp.message_handler(commands=["start"])
 async def process_start_command(message: types.Message):
-    keyboard = types.ReplyKeyboardMarkup()
-    button_1 = types.KeyboardButton(text="С пюрешкой")
+    keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    button_1 = types.KeyboardButton(text="Показать все файлы")
     keyboard.add(button_1)
-    button_2 = "Без пюрешки"
+    button_2 = "Общий обьем файлов"
     keyboard.add(button_2)
     await message.answer("Привет!\nНапиши мне что-нибудь!", reply_markup=keyboard)
 
