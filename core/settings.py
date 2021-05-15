@@ -4,6 +4,7 @@ from typing import Optional
 
 class Settings(BaseSettings):
     token: str = Field(..., env="TOKEN")
+    psql_url: str = Field(..., env="PSQL")
 
     class Config:
         env_file = ".env"

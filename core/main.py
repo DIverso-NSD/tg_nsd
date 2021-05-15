@@ -2,8 +2,10 @@ from aiogram import Bot, types
 from aiogram.dispatcher import Dispatcher
 from aiogram.utils import executor
 from loguru import logger
+from aiogram.dispatcher.filters import Text
 
 from settings import settings
+from db.get import *
 
 
 TOKEN = settings.token
@@ -27,10 +29,33 @@ async def process_help_command(message: types.Message):
     await message.reply("Напиши мне что нибудь, бро")
 
 
-@dp.message_handler()
-async def echo_message(msg: types.Message):
-    logger.info(msg)
-    await bot.send_message(msg.from_user.id, f"{msg.from_user.first_name}, салам!")
+@dp.message_handler(Text(equals="Общий обьем файлов"))
+async def sum_files(message: types.Message):
+    raw_id = await get_user_id(message.from_user.username)
+    id = raw_id["id"]
+    raw_sum = await get_files_size(id)
+    sum = raw_sum["sum"]
+    if id:
+        await bot.send_message(message.from_user.id, f"Вес всех файлов - {sum}")
+    else:
+        await bot.send_message(
+            message.from_user.id,
+            f"Юзер с именем {message.from_user.username} не найден",
+        )
+
+
+@dp.message_handler(Text(equals="Показать все файлы"))
+async def all_files(message: types.Message):
+    id = await get_user_id(message.from_user.username)
+    if id:
+        await bot.send_message(
+            message.from_user.id, f"{message.from_user.username} - {id}, салам!"
+        )
+    else:
+        await bot.send_message(
+            message.from_user.id,
+            f"Юзер с именем {message.from_user.username} не найден",
+        )
 
 
 if __name__ == "__main__":
